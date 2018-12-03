@@ -3,3 +3,6 @@
 ################################################################################
 
 /.vs
+/CallingP2PApisSample/bin/Debug
+/CallingP2PApisSample/obj
+/packages
