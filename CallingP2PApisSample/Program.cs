@@ -34,12 +34,11 @@
                 // Create your data object.  
                 RootObject rootObject = CreateRootObject();
 
-                string supplierId = "0002113766"; // TODO: Replace this sample with your supplier Id. 
-                string shipmentId = "sampleShipmentId"; // TODO: Replace this sample with your shipment Id. 
-                var requestUrl = $"https://p2p.azure-api.net/receipting/v1/api/suppliers/{supplierId}/shipments/{shipmentId}";
+                // Set the request url.
+                var requestUrl = $"https://p2p.azure-api.net/receipt/v1/api/shipments";
 
                 // Call the put api 
-                var result = await client.PutAsJsonAsync(requestUrl, rootObject);
+                var result = await client.PostAsJsonAsync(requestUrl, rootObject); 
 
                 // See the response of the call. 
                 var response  = await result.Content.ReadAsStringAsync();
@@ -51,48 +50,59 @@
             // Declare root object. 
             RootObject rootObject  = new RootObject();
 
-            // Populate the object. 
-            rootObject.trackingNumber = "TrackSample123";
-            rootObject.shippingCarrier = "FedEx";
-            rootObject.expectedDeliveryDate = DateTime.Today;
-            rootObject.isShipToAddressSameAsPO = true; 
-            
-            // Populate ship from and ship to address
-            var shipFromAddress = new Address
-                                      {
-                                          address1 = "Wamon-Lockr-Avondale food",
-                                          address2 = "11448 Avondale Rd",
-                                          city = "Redmond",
-                                          country = "USA",
-                                          postalCode = "98052",
-                                          state = "WA"
-                                      };
-
+            // Populate the object. These are only example values. 
+            rootObject.ShipmentId = "sampleShipmentId"; 
+            rootObject.TrackingNumber = "TrackSample123";
+            rootObject.ShippingCarrier = "FedEx";
+            rootObject.ExpectedDeliveryDate = DateTime.Today;
+            rootObject.IsShipToAddressSameAsPO = true; 
+           
             var shipToAddress = new Address
                                       {
-                                          address1 = "Microsoft Redmond Woods Campus",
-                                          address2 = "Building C 5000 148th Ave NE",
-                                          city = "Redmond",
-                                          country = "USA",
-                                          postalCode = "98052",
-                                          state = "WA"
+                                          Address1 = "Microsoft Redmond Woods Campus",
+                                          Address2 = "Building C 5000 148th Ave NE",
+                                          City = "Redmond",
+                                          Country = "USA",
+                                          PostalCode = "98052",
+                                          State = "WA"
                                       };
 
-            rootObject.shipFromAddress = shipFromAddress;
-            rootObject.shipToAddress = shipToAddress; 
+            rootObject.ShipToAddress = shipToAddress;
 
-            Item item = new Item
+            var shipFromAddress = new Address
+                                      {
+                                          Address1 = "Wamon-Lockr-Avondale food",
+                                          Address2 = "11448 Avondale Rd",
+                                          City = "Redmond",
+                                          Country = "USA",
+                                          PostalCode = "98052",
+                                          State = "WA"
+                                      };
+
+            PurchaseOrderItem purchaseOrderItem = new PurchaseOrderItem
                             {
-                                purchaseOrderNumber = "0007709431", // 10 digit number (with padded 0's)
-                                purchaseOrderLineItemNumber = "00010", // 5 digit number (with padded 0's)
-                                assetTag = "TestTag",
-                                serialNumber = "SerialNumberTest",
-                                quantity = 0.0,
-                                recipientAlias = "alias"
+                                SupplierId = "0002113766",
+                                PurchaseOrderNumber = "0007709431", // 10 digit number (with padded 0's)
+                                PurchaseOrderLineItemNumber = "00010", // 5 digit number (with padded 0's)
+                                Quantity = 0.0,
+                                ShipFromAddress = shipFromAddress,
+                                RecipientAlias = "alias",
+                                Items = new List<Item>()
                             };
 
+            // Create the item.
+            Item item = new Item()
+                            {
+                                AssetTag = "TestTag",
+                                SerialNumber = "SerialNumberTest",
+                                ItemRecipient = "alias"
+                            };
+
+            // Add the asset item.  
+            purchaseOrderItem.Items.Add(item); 
+            
             // Add items to object. 
-            rootObject.items = new List<Item> { item };
+            rootObject.PurchaseOrderItems = new List<PurchaseOrderItem> { purchaseOrderItem };
 
             // Create your additional info dictionary. 
             IDictionary<string, string> additionalInfo = new Dictionary<string, string>();
@@ -101,7 +111,7 @@
             additionalInfo.Add("optionalKey1", "optionalKey2");
 
             // Add additionalInfo dictionary to object. 
-            rootObject.additionalInfo = additionalInfo;
+            rootObject.AdditionalInfo = additionalInfo;
             
             return rootObject;
         }

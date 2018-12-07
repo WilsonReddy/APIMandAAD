@@ -2,11 +2,8 @@
 {
     public class Item
     {
-        public string purchaseOrderNumber { get; set; }
-        public string purchaseOrderLineItemNumber  { get; set; }
-        public string assetTag  { get; set; }
-        public string serialNumber { get; set; }
-        public double quantity { get; set; }
-        public string recipientAlias { get; set; }
-    }
+        public string AssetTag { get; set; }
+        public string SerialNumber { get; set; } 
+        public string ItemRecipient { get; set; }
+    } 
 }

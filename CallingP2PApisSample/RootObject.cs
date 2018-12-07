@@ -5,14 +5,14 @@
 
     public class RootObject
     {
-        public string trackingNumber { get; set; } 
-        public string shippingCarrier { get; set; }
-        public DateTime expectedDeliveryDate  { get; set; }
-        public Address shipFromAddress { get; set; }
-        public Address shipToAddress { get; set; }
-        public bool isShipToAddressSameAsPO { get; set; }
-        public IDictionary<string,string> additionalInfo { get; set; }
-        public List<Item> items { get; set; }
+        public string ShipmentId { get; set; }
+        public string TrackingNumber { get; set; } 
+        public string ShippingCarrier { get; set; }
+        public Address ShipToAddress { get; set; }
+        public bool IsShipToAddressSameAsPO { get; set; }
+        public DateTime ExpectedDeliveryDate { get; set; }
+        public IDictionary<string,string> AdditionalInfo { get; set; }
+        public List<PurchaseOrderItem> PurchaseOrderItems { get; set; }
     }
 
 }
