@@ -8,6 +8,7 @@
         public string ShipmentId { get; set; }
         public string TrackingNumber { get; set; } 
         public string ShippingCarrier { get; set; }
+        public string OrganizationName { get; set; }
         public Address ShipToAddress { get; set; }
         public bool IsShipToAddressSameAsPO { get; set; }
         public DateTime ExpectedDeliveryDate { get; set; }

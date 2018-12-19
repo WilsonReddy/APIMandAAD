@@ -5,7 +5,7 @@
 
     public class PurchaseOrderItem
     {
-        public string SupplierId { get; set; }
+        public string VendorId { get; set; }
         public string PurchaseOrderNumber { get; set; }
         public string PurchaseOrderLineItemNumber  { get; set; }
         public Address ShipFromAddress { get; set; }

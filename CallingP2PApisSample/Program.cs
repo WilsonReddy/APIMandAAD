@@ -32,7 +32,7 @@
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GetToken().Result);
 
                 // Create your data object.  
-                RootObject rootObject = CreateRootObject();
+                var rootObject = CreateRootObject();
 
                 // Set the request url.
                 var requestUrl = $"https://p2p.azure-api.net/receipt/v1/api/shipments";
@@ -45,7 +45,7 @@
             }
         }
 
-        private static RootObject CreateRootObject()
+        private static List<RootObject> CreateRootObject()
         {
             // Declare root object. 
             RootObject rootObject  = new RootObject();
@@ -54,13 +54,14 @@
             rootObject.ShipmentId = "sampleShipmentId"; 
             rootObject.TrackingNumber = "TrackSample123";
             rootObject.ShippingCarrier = "FedEx";
+            rootObject.OrganizationName = "Lenovo Russia";
             rootObject.ExpectedDeliveryDate = DateTime.Today;
             rootObject.IsShipToAddressSameAsPO = true; 
            
             var shipToAddress = new Address
                                       {
                                           Address1 = "Microsoft Redmond Woods Campus",
-                                          Address2 = "Building C 5000 148th Ave NE",
+                                          Address2 = "Building C 5330 148th Ave NE",
                                           City = "Redmond",
                                           Country = "USA",
                                           PostalCode = "98052",
@@ -72,7 +73,7 @@
             var shipFromAddress = new Address
                                       {
                                           Address1 = "Wamon-Lockr-Avondale food",
-                                          Address2 = "11448 Avondale Rd",
+                                          Address2 = "114418 Avondale Rd",
                                           City = "Redmond",
                                           Country = "USA",
                                           PostalCode = "98052",
@@ -81,7 +82,7 @@
 
             PurchaseOrderItem purchaseOrderItem = new PurchaseOrderItem
                             {
-                                SupplierId = "0002113766",
+                                VendorId = "0002113766",
                                 PurchaseOrderNumber = "0007709431", // 10 digit number (with padded 0's)
                                 PurchaseOrderLineItemNumber = "00010", // 5 digit number (with padded 0's)
                                 Quantity = 0.0,
@@ -113,14 +114,14 @@
             // Add additionalInfo dictionary to object. 
             rootObject.AdditionalInfo = additionalInfo;
             
-            return rootObject;
+            return new List<RootObject>() { rootObject };
         }
 
         public static async Task<string> GetToken()
         {
 
             // Add your tenant to the authentication context. 
-            string authority = string.Format(CultureInfo.InvariantCulture, "https://login.microsoftonline.com/{0}", "<< your tenant id>>"); // TODO: Add tenant id. 
+            string authority = string.Format(CultureInfo.InvariantCulture, "https://login.microsoftonline.com/{0}", "<<your tenanat id>>"); // TODO: Add tenant id. 
             var authContext = new AuthenticationContext(authority);
 
             // Add your application Id and App Key credentials.  
